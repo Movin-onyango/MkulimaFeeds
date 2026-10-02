@@ -1,0 +1,135 @@
+<resources>
+    <string name="app_name">MkulimaFeeds</string>
+    <string name="brand_name">MkulimaFeeds</string>
+    <string name="desc_navigation_menu">Open navigation drawer</string>
+    <string name="desc_dealer_map">Map showing geographic demand for dealers</string>
+    <string name="desc_revenue_chart">Chart showing weekly revenue trends</string>
+
+    <!-- Navigation Labels -->
+    <string name="nav_home">Home</string>
+    <string name="nav_catalog">Catalog</string>
+    <string name="nav_cart">Cart</string>
+    <string name="nav_orders">Orders</string>
+    <string name="nav_account">Account</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_insights">Insights</string>
+    <string name="dealer_catalog_title">Dealer Catalog</string>
+    <string name="dealer_orders_title">Orders</string>
+    <string name="dealer_insights_title">Insights</string>
+    <string name="nav_products">Products</string>
+    <string name="admin_insights_title">Insights</string>
+
+
+    <!-- Catalog Empty States -->
+    <string name="catalog_empty_title">No Products Found</string>
+    <string name="catalog_empty_subtitle">Try searching for another premium feed or check back later.</string>
+    <string name="catalog_empty_pig_title">Pig Feeds Coming Soon</string>
+    <string name="catalog_empty_pig_desc">Our swine nutrition experts are finalizing the high-protein piglet and finisher formulas.</string>
+    <string name="catalog_empty_dairy_title">Dairy Section Refreshing</string>
+    <string name="catalog_empty_dairy_desc">We are currently restocking our premium dairy concentrates and supplements.</string>
+
+    <!-- Catalog Messages -->
+    <string name="msg_added_to_cart">%1$s has been added to your cart!</string>
+
+    <!-- Profile Section -->
+    <string name="profile_section_management">ACCOUNT MANAGEMENT</string>
+    <string name="profile_menu_orders">Order History</string>
+    <string name="profile_logout">Log Out</string>
+    <string name="account_title">Account</string>
+    <string name="account_section_activity">MY ACTIVITY</string>
+    <string name="account_section_security">SECURITY</string>
+    <string name="account_section_preferences">PREFERENCES</string>
+    <string name="account_section_support">SUPPORT</string>
+
+
+    <!-- My Orders Screen -->
+    <string name="orders_title">My Orders</string>
+    <string name="orders_search_hint">Search Order ID or Date...</string>
+    <string name="chip_all_orders">All Orders</string>
+    <string name="chip_in_transit">In Transit</string>
+    <string name="chip_delivered">Delivered</string>
+    <string name="empty_orders_title">No %1$s orders</string>
+    <string name="empty_orders_in_transit">Items currently being dispatched will appear here.</string>
+    <string name="empty_orders_delivered">Your order history is currently empty.</string>
+    <string name="empty_orders_default">You haven\'t placed any orders yet.</string>
+    <string name="btn_start_shopping">Start Shopping</string>
+
+    <!-- Notifications Screen -->
+    <string name="notif_title">Farm Updates</string>
+    <string name="notif_subtitle">Orders, stock alerts and productivity tips.</string>
+    <string name="notif_clear_all">Clear All</string>
+    <string name="notif_today">TODAY</string>
+    <string name="notif_yesterday">YESTERDAY</string>
+
+    <string name="notif_order_dispatched_title">Order Dispatched</string>
+    <string name="notif_order_dispatched_msg">Your Dairy Pellets are on the way!</string>
+    <string name="notif_order_dispatched_desc">Expect delivery by 2:30 PM today at your Kajiado farm.</string>
+
+    <string name="notif_inventory_alert_title">Inventory Alert</string>
+    <string name="notif_inventory_alert_msg">Low Stock: Layers Mash</string>
+    <string name="notif_inventory_alert_desc">Your current supply is estimated to last 3 days. Order now to avoid production drops.</string>
+
+    <string name="notif_expert_tip_title">Expert Tip</string>
+    <string name="notif_expert_tip_msg">Boost Egg Yield by 15%</string>
+    <string name="notif_expert_tip_desc">Gradually introducing calcium-rich additives to your layers mash can significantly improve shell quality.</string>
+
+    <string name="notif_offer_title">Exclusive Offer</string>
+    <string name="notif_offer_msg">Bulk Discount on Pig Creep</string>
+    <string name="notif_offer_desc">Save 10% when you order 20+ bags of MkulimaFeeds Pig Creep Pellets this weekend.</string>
+
+    <!-- Admin Product Edit Screen -->
+    <string name="admin_add_product_title">Add New Product</string>
+    <string name="admin_edit_product_title">Edit Product</string>
+    <string name="admin_product_name_hint">Product Name (e.g. Layers Mash)</string>
+    <string name="admin_product_sku_hint">SKU Code</string>
+    <string name="admin_product_price_hint">Price (KES)</string>
+    <string name="admin_product_stock_hint">Initial Stock Level</string>
+    <string name="admin_product_desc_hint">Product Description &amp; Nutrients</string>
+    <string name="admin_product_category_label">Feed Category</string>
+    <string name="admin_btn_save_product">Save Product</string>
+    <string name="admin_msg_product_saved">Product updated successfully</string>
+    <string name="admin_msg_fill_all">Please fill in all required fields</string>
+
+    <!-- Admin Customer Edit Screen -->
+    <string name="admin_add_user_title">Add New User</string>
+    <string name="admin_edit_user_title">Edit User Details</string>
+    <string name="admin_btn_save_user">Save User</string>
+    <string name="admin_msg_user_saved">User details updated successfully</string>
+    <string name="admin_user_name_hint">Full Name</string>
+    <string name="admin_user_email_hint">Email Address</string>
+    <string name="admin_user_phone_hint">Phone Number</string>
+    <string name="admin_user_tier_label">Membership Tier</string>
+    <string name="admin_account_title">Admin Account</string>
+    <string name="admin_operations_section">ADMIN OPERATIONS</string>
+    <string name="admin_role_description">Full system access and control</string>
+    <string name="admin_system_administrator">SYSTEM ADMINISTRATOR</string>
+    <string name="staff_account_title">Staff Account</string>
+    <string name="staff_operations_section">OPERATIONS</string>
+    <string name="staff_role_description">Product, order &amp; analytics access</string>
+    <string name="staff_operations_team">OPERATIONS TEAM</string>
+
+    <!-- Dealer Selection -->
+    <string name="admin_select_dealer_title">Select Local Dealer</string>
+    <string name="admin_select_dealer_desc">Delegate fulfillment to a certified distributor</string>
+    <string name="dealer_account_title">Dealer Account</string>
+    <string name="dealer_business_hint">Business not set</string>
+    <string name="dealer_region_hint">Region not set</string>
+    <string name="dealer_credit_line">Credit Line</string>
+    <string name="dealer_account_manager">Account Manager</string>
+    <string name="dealer_tier_progress">Progress to %1$s</string>
+    <string name="dealer_max_tier">Maximum tier reached</string>
+
+    <!-- Accessibility Descriptions -->
+    <string name="desc_back">Navigate back</string>
+    <string name="desc_profile_image">User profile image</string>
+    <string name="desc_product_image">Product image</string>
+    <string name="desc_order_details">View order details</string>
+    <string name="desc_empty_icon">Empty state illustration</string>
+    <string name="desc_add_product_image">Tap to add product photo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="theme_title">Theme</string>
+    <string name="about_title">About</string>
+    <string name="terms_title">Terms of Service</string>
+    <string name="privacy_title">Privacy Policy</string>
+</resources>

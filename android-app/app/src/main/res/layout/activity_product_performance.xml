@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/performanceRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FDFDFB">
+
+    <!-- Header Toolbar -->
+    <RelativeLayout
+        android:id="@+id/toolbarPerf"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="@color/brand_dark_green"
+            android:contentDescription="@string/desc_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="PRODUCT PERFORMANCE"
+            android:textStyle="bold"
+            android:textColor="@color/brand_dark_green"
+            android:textSize="16sp"
+            android:letterSpacing="0.1"/>
+
+        <ImageView
+            android:id="@+id/btnExportPdf"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/ic_menu_save"
+            app:tint="@color/brand_dark_green"
+            android:contentDescription="Export PDF" />
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="20dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbarPerf"
+        app:layout_constraintBottom_toTopOf="@id/adminBottomNav">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Most Ordered Products"
+                android:textColor="#1A1A1A"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Real-time optimization metrics across product catalog."
+                android:textColor="#757575"
+                android:textSize="14sp" />
+
+            <!-- Product Performance Table -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#F0F0F0">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <include layout="@layout/view_performance_table_header" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvProductMetrics"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_performance_row"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Inventory Health Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="INVENTORY HEALTH"
+                android:textColor="#757575"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1" />
+
+            <!-- Critical items -->
+            <include layout="@layout/view_inventory_health_card" />
+
+            <!-- Product Availability Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#F0F0F0"
+                app:cardBackgroundColor="#F9F9F9">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Product Availability"
+                        android:textColor="#757575"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/tvInventoryAvailability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="—%"
+                        android:textColor="@color/brand_dark_green"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        android:layout_marginTop="4dp"/>
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/inventoryAvailabilityProgress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:progress="0"
+                        app:indicatorColor="@color/brand_dark_green"
+                        app:trackColor="#E0E7FF"
+                        app:trackCornerRadius="4dp"
+                        app:trackThickness="8dp"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- LOADING OVERLAY (hidden by default) -->
+    <FrameLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#CCFFFFFF"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/toolbarPerf"
+        app:layout_constraintBottom_toTopOf="@id/adminBottomNav">
+
+        <ProgressBar
+            android:id="@+id/loadingProgress"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/brand_dark_green" />
+
+        <TextView
+            android:id="@+id/tvLoadingText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="80dp"
+            android:text="Loading product performance..."
+            android:textColor="#757575"
+            android:textSize="13sp" />
+    </FrameLayout>
+
+    <!-- Bottom Nav -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/adminBottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/admin_bottom_nav"
+        app:backgroundTint="#FFFFFF"
+        app:itemIconTint="@color/brand_dark_green"
+        app:itemTextColor="@color/brand_dark_green"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

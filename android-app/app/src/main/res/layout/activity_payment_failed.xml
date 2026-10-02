@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/payment_failed_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8FBFF">
+
+    <!-- 1. Header Toolbar (Reused Style) -->
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:src="@android:drawable/ic_lock_idle_lock"
+            app:tint="#0D47A1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Secure Checkout"
+            android:textColor="#0D47A1"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:src="@android:drawable/ic_menu_help"
+            app:tint="#4B5563" />
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavCard">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:gravity="center_horizontal">
+
+            <!-- 2. Main Error Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp"
+                    android:gravity="center_horizontal">
+
+                    <!-- Error Icon -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:cardBackgroundColor="#FEE2E2"
+                        app:cardCornerRadius="40dp"
+                        app:cardElevation="0dp">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:src="@android:drawable/ic_dialog_alert"
+                            app:tint="#B91C1C"/>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="Payment Failed"
+                        android:textColor="#111827"
+                        android:textSize="22sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Your transaction could not be completed. Please check your balance or try a different method."
+                        android:textColor="#6B7280"
+                        android:gravity="center"
+                        android:lineSpacingExtra="4dp"/>
+
+                    <!-- Reference Details Box -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:background="#F3F4FF"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="REFERENCE ID" android:textSize="11sp" android:textColor="#6B7280" android:textStyle="bold"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="#MV-98234-X" android:textColor="#111827" android:textStyle="bold"/>
+                        </RelativeLayout>
+
+                        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ATTEMPT TIME" android:textSize="11sp" android:textColor="#6B7280" android:textStyle="bold"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="Today, 10:42 AM" android:textColor="#111827"/>
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <!-- Actions -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnTryAgain"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="24dp"
+                        android:text="Try Again"
+                        android:textAllCaps="false"
+                        android:backgroundTint="#0047AB"
+                        app:cornerRadius="12dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:id="@+id/btnChangeMethod"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="12dp"
+                        android:text="Change Payment Method"
+                        android:textAllCaps="false"
+                        android:textColor="#0047AB"
+                        app:strokeColor="#0047AB"
+                        app:cornerRadius="12dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="🎧 Contact Customer Support"
+                        android:textColor="#0D47A1"
+                        android:textSize="13sp"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 3. Bottom Security Banners -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp">
+                    <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:scaleType="centerCrop" android:src="@android:drawable/btn_default" android:background="#E5E7EB"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1.2"
+                    android:layout_marginStart="8dp"
+                    app:cardBackgroundColor="#EBF1FF"
+                    app:cardCornerRadius="16dp"
+                    app:strokeWidth="0dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:padding="12dp" android:orientation="vertical" android:gravity="center_vertical">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp" android:src="@android:drawable/checkbox_on_background" app:tint="#1E3A8A"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Secure 256-bit\nEncryption Active" android:textSize="11sp" android:textStyle="bold" android:textColor="#1E3A8A"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Navigation (Active: Payments) -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/bottomNavCard"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:cardElevation="24dp"
+        app:cardCornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="horizontal" android:gravity="center" android:background="#F3F4FF">
+            <ImageView android:layout_width="0dp" android:layout_weight="1" android:layout_height="24dp" android:src="@android:drawable/ic_menu_today" app:tint="#BDBDBD"/>
+
+            <LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center" android:background="@android:color/transparent">
+                <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@android:drawable/ic_menu_save" app:tint="#2563EB" android:padding="4dp"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Payments" android:textSize="10sp" android:textColor="#2563EB" android:textStyle="bold"/>
+            </LinearLayout>
+
+            <ImageView android:layout_width="0dp" android:layout_weight="1" android:layout_height="24dp" android:src="@android:drawable/ic_menu_gallery" app:tint="#BDBDBD"/>
+            <ImageView android:layout_width="0dp" android:layout_weight="1" android:layout_height="24dp" android:src="@android:drawable/ic_menu_myplaces" app:tint="#BDBDBD"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

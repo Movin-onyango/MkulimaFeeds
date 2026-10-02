@@ -1,0 +1,40 @@
+ Android / Gradle
+.iml
+.gradle/
+local.properties
+.idea/
+.DS_Store
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+.apk
+.aab
+.ap_
+.dex
+.class
+bin/
+gen/
+out/
+release/
+keystore.properties
+*.jks
+*.keystore
+.kotlin/
+ Backend / Ktor
+backend/build/
+backend/.gradle/
+backend/uploads/
+.log
+logs/
+
+Secrets / Environment
+.env
+.env.
+!.env.example
+application-local.conf
+secrets.properties
+
+ OS
+Thumbs.db
+*.swp

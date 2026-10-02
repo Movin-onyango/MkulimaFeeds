@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="#FFE0E0"
+    app:cardBackgroundColor="#FFF8F8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvFeedName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lowest Stock Product"
+                android:textColor="#6C7278"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/tvStockStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="LOWEST STOCK"
+                android:textColor="#D32F2F"
+                android:textStyle="bold"
+                android:textSize="12sp"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvInventoryStock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 units"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#D32F2F"/>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/inventoryStockProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:progress="0"
+            app:trackColor="#F0F0F0"
+            app:indicatorColor="#D32F2F"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/tvInventoryStockLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current stock"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#D32F2F"/>
+
+            <TextView
+                android:id="@+id/tvInventoryStockDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="Live inventory"
+                android:textSize="10sp"
+                android:textColor="#6C7278"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
