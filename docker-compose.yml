@@ -1,0 +1,67 @@
+services:
+
+  # ============================================================
+  # PostgreSQL
+  # ============================================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: mkulimafeeds-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-mkulimafeeds_db}
+      POSTGRES_USER: ${DB_USER:-mkulimafeeds_app}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-mkulimafeeds_app} -d ${DB_NAME:-mkulimafeeds_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mkulimafeeds-net
+
+  # ============================================================
+  # Ktor Backend
+  # ============================================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mkulimafeeds-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-mkulimafeeds_db}
+      DB_USER: ${DB_USER:-mkulimafeeds_app}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set}
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set}
+
+      # Optional integrations (fallback to console logging if absent)
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      EMAIL_FROM: ${EMAIL_FROM:-MkulimaFeeds <onboarding@resend.dev>}
+      AT_API_KEY: ${AT_API_KEY:-}
+      AT_USERNAME: ${AT_USERNAME:-sandbox}
+      AT_SENDER_ID: ${AT_SENDER_ID:-}
+    volumes:
+      - backend_uploads:/app/uploads
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    networks:
+      - mkulimafeeds-net
+
+volumes:
+  postgres_data:
+    driver: local
+  backend_uploads:
+    driver: local
+
+networks:
+  mkulimafeeds-net:
+    driver: bridge

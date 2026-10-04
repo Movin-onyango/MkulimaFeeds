@@ -1,0 +1,14 @@
+# Ignore everything by default (only backend/ and docker files matter)
+*
+!backend/
+!docker-compose.yml
+!.env.example
+!README.md
+
+# But exclude nested junk
+backend/.gradle/
+backend/build/
+backend/.idea/
+backend/uploads/
+**/node_modules/
+**/.git/
