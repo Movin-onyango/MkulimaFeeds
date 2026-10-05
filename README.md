@@ -7,7 +7,7 @@ A full-stack agricultural commerce platform connecting Kenyan farmers, dealers, 
 [![Ktor](https://img.shields.io/badge/Ktor-2.x-purple)](https://ktor.io/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-blue?logo=postgresql)](https://www.postgresql.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-
+[![CI](https://github.com/Movin-onyango/MkulimaFeeds/actions/workflows/ci.yml/badge.svg)](https://github.com/Movin-onyango/MkulimaFeeds/actions/workflows/ci.yml)
 
 
 📖 Overview
@@ -22,8 +22,7 @@ MkulimaFeeds is a production-grade mobile platform that digitizes the animal-fee
 - Production concerns** — JWT auth, bcrypt hashing, OTP rate limiting, soft deletes, audit logging.
 
 ## Architecture
-
-
+```
 ┌─────────────────────────┐         ┌──────────────────────────┐
 │   Android App (Kotlin)  │  HTTPS  │   Ktor Backend (Kotlin)  
 │   ViewModels + Flow    │ ──────►   - Routes → Services     
@@ -36,7 +35,7 @@ MkulimaFeeds is a production-grade mobile platform that digitizes the animal-fee
                                     ┌────────────────────────┐
                                     │      PostgreSQL        
                                     └────────────────────────┘
-
+```
 ##  Key Features
 
 ### 👤 Customer
