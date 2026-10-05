@@ -127,22 +127,45 @@ cd android-app
 
 ## 📸 Screenshots
 
-### Customer Experience
+### 🛒 Customer Experience
 
 | Home & Featured | Product Catalog | Shopping Cart | Checkout |
 |---|---|---|---|
 | ![Home](docs/screenshots/01_home.png) | ![Catalog](docs/screenshots/02_catalog.png) | ![Cart](docs/screenshots/03_cart.png) | ![Checkout](docs/screenshots/04_checkout.png) |
 
-| My Orders | Customer Account | Saved Locations | Theme Selection |
+| My Orders | Customer Account | Saved Locations | Theme |
 |---|---|---|---|
 | ![Orders](docs/screenshots/05_my_orders.png) | ![Account](docs/screenshots/06_customer_account.png) | ![Locations](docs/screenshots/07_saved_locations.png) | ![Theme](docs/screenshots/08_theme.png) |
 
-### Admin & Management
-
-| Admin Console | Settings & Support |
+| Settings & Support | Saved Locations (Dark) |
 |---|---|
-| ![Admin Console](docs/screenshots/10_admin_console.png) | ![Settings](docs/screenshots/09_settings_support.png) |
+| ![Settings](docs/screenshots/09_settings_support.png) | ![Locations Dark](docs/screenshots/07_saved_locations_dark.png) |
 
+### 🛡️ Admin Console
+
+| Admin Console | Product Management | Business Intelligence | Analytics Dashboard |
+|---|---|---|---|
+| ![Admin](docs/screenshots/10_admin_console.png) | ![Products](docs/screenshots/11_product_mgt.png) | ![BI](docs/screenshots/12_business_intelligence.png) | ![Analytics](docs/screenshots/13_analytics_dashboard.png) |
+
+| BI Detail | Analytics Detail | Dealer Audit | Customer Directory |
+|---|---|---|---|
+| ![BI Detail](docs/screenshots/12_business_intelligence_02.png) | ![Analytics Detail](docs/screenshots/13_analytics_dashboard_02.png) | ![Audit](docs/screenshots/14_dealer_audit.png) | ![Customers](docs/screenshots/15_customer_directory.png) |
+
+| Dealer Applications | Business Rules |
+|---|---|
+| ![Dealer Apps](docs/screenshots/16_dealer_applications.png) | ![Rules](docs/screenshots/17_business_rules.png) |
+
+### 🚚 Dealer Experience
+
+| Dealer Dashboard | Dealer Account | Dealer Orders | Dealer Catalog |
+|---|---|---|---|
+| ![Dealer Dash](docs/screenshots/18_dealer_dashboard.png) | ![Dealer Acct](docs/screenshots/20_dealer_account.png) | ![Dealer Orders](docs/screenshots/21_dealer_orders.png) | ![Dealer Catalog](docs/screenshots/22_dealer_catalog.png) |
+
+### 🔔 Notifications
+
+| Notifications Inbox |
+|---|
+| ![Notifications](docs/screenshots/19_notifications.png) |
 ## 🔐 Security Practices
 
 - JWT-based stateless authentication
