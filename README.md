@@ -16,10 +16,10 @@ MkulimaFeeds is a production-grade mobile platform that digitizes the animal-fee
 
  ## Why This Project Matters
 
-- Real-world domain** — built around an actual Kenyan agri-business problem.
-- Role-based architecture** — four user roles with granular RBAC on both client and server.
-- Full-stack ownership** — native Android app + Ktor backend + PostgreSQL, designed and built end-to-end.
-- Production concerns** — JWT auth, bcrypt hashing, OTP rate limiting, soft deletes, audit logging.
+- **Real-world domain** — built around an actual Kenyan agri-business problem.
+- **Role-based architecture** — four user roles with granular RBAC on both client and server.
+- **Full-stack ownership** — native Android app + Ktor backend + PostgreSQL, designed and built end-to-end.
+- **Production concerns** — JWT auth, bcrypt hashing, OTP rate limiting, soft deletes, audit logging.
 
 ## Architecture
 ```
@@ -127,11 +127,21 @@ cd android-app
 
 ## 📸 Screenshots
 
- Customer Home | Product Catalog | Admin Console | Sales Insights |
+### Customer Experience
 
- ![Home](docs/screenshots/01_home.png) | ![Catalog](docs/screenshots/02_catalog.png) | ![Admin](docs/screenshots/03_admin_console.png) | ![Insights](docs/screenshots/04_insights.png) |
+| Home & Featured | Product Catalog | Shopping Cart | Checkout |
+|---|---|---|---|
+| ![Home](docs/screenshots/01_home.png) | ![Catalog](docs/screenshots/02_catalog.png) | ![Cart](docs/screenshots/03_cart.png) | ![Checkout](docs/screenshots/04_checkout.png) |
 
-(Screenshots to be added — see `docs/screenshots/`.)
+| My Orders | Customer Account | Saved Locations | Theme Selection |
+|---|---|---|---|
+| ![Orders](docs/screenshots/05_my_orders.png) | ![Account](docs/screenshots/06_customer_account.png) | ![Locations](docs/screenshots/07_saved_locations.png) | ![Theme](docs/screenshots/08_theme.png) |
+
+### Admin & Management
+
+| Admin Console | Settings & Support |
+|---|---|
+| ![Admin Console](docs/screenshots/10_admin_console.png) | ![Settings](docs/screenshots/09_settings_support.png) |
 
 ## 🔐 Security Practices
 
