@@ -124,48 +124,47 @@ cd android-app
 - Open in Android Studio
 - Verify `ApiConfig.BASE_URL` (emulator: `http://10.0.2.2:8080/`, physical device: `adb reverse tcp:8080 tcp:8080`)
 - Build & run
-
 ## 📸 Screenshots
 
 ### 🛒 Customer Experience
 
 | Home & Featured | Product Catalog | Shopping Cart | Checkout |
 |---|---|---|---|
-| ![Home](docs/screenshots/01_home.png) | ![Catalog](docs/screenshots/02_catalog.png) | ![Cart](docs/screenshots/03_cart.png) | ![Checkout](docs/screenshots/04_checkout.png) |
+| <img src="docs/screenshots/01_home.png" width="200" /> | <img src="docs/screenshots/02_catalog.png" width="200" /> | <img src="docs/screenshots/03_cart.png" width="200" /> | <img src="docs/screenshots/04_checkout.png" width="200" /> |
 
 | My Orders | Customer Account | Saved Locations | Theme |
 |---|---|---|---|
-| ![Orders](docs/screenshots/05_my_orders.png) | ![Account](docs/screenshots/06_customer_account.png) | ![Locations](docs/screenshots/07_saved_locations.png) | ![Theme](docs/screenshots/08_theme.png) |
+| <img src="docs/screenshots/05_my_orders.png" width="200" /> | <img src="docs/screenshots/06_customer_account.png" width="200" /> | <img src="docs/screenshots/07_saved_locations.png" width="200" /> | <img src="docs/screenshots/08_theme.png" width="200" /> |
 
 | Settings & Support | Saved Locations (Dark) |
 |---|---|
-| ![Settings](docs/screenshots/09_settings_support.png) | ![Locations Dark](docs/screenshots/07_saved_locations_dark.png) |
+| <img src="docs/screenshots/09_settings_support.png" width="200" /> | <img src="docs/screenshots/07_saved_locations_dark.png" width="200" /> |
 
 ### 🛡️ Admin Console
 
 | Admin Console | Product Management | Business Intelligence | Analytics Dashboard |
 |---|---|---|---|
-| ![Admin](docs/screenshots/10_admin_console.png) | ![Products](docs/screenshots/11_product_mgt.png) | ![BI](docs/screenshots/12_business_intelligence.png) | ![Analytics](docs/screenshots/13_analytics_dashboard.png) |
+| <img src="docs/screenshots/10_admin_console.png" width="200" /> | <img src="docs/screenshots/11_product_mgt.png" width="200" /> | <img src="docs/screenshots/12_business_intelligence.png" width="200" /> | <img src="docs/screenshots/13_analytics_dashboard.png" width="200" /> |
 
 | BI Detail | Analytics Detail | Dealer Audit | Customer Directory |
 |---|---|---|---|
-| ![BI Detail](docs/screenshots/12_business_intelligence_02.png) | ![Analytics Detail](docs/screenshots/13_analytics_dashboard_02.png) | ![Audit](docs/screenshots/14_dealer_audit.png) | ![Customers](docs/screenshots/15_customer_directory.png) |
+| <img src="docs/screenshots/12_business_intelligence_02.png" width="200" /> | <img src="docs/screenshots/13_analytics_dashboard_02.png" width="200" /> | <img src="docs/screenshots/14_dealer_audit.png" width="200" /> | <img src="docs/screenshots/15_customer_directory.png" width="200" /> |
 
 | Dealer Applications | Business Rules |
 |---|---|
-| ![Dealer Apps](docs/screenshots/16_dealer_applications.png) | ![Rules](docs/screenshots/17_business_rules.png) |
+| <img src="docs/screenshots/16_dealer_applications.png" width="200" /> | <img src="docs/screenshots/17_business_rules.png" width="200" /> |
 
 ### 🚚 Dealer Experience
 
 | Dealer Dashboard | Dealer Account | Dealer Orders | Dealer Catalog |
 |---|---|---|---|
-| ![Dealer Dash](docs/screenshots/18_dealer_dashboard.png) | ![Dealer Acct](docs/screenshots/20_dealer_account.png) | ![Dealer Orders](docs/screenshots/21_dealer_orders.png) | ![Dealer Catalog](docs/screenshots/22_dealer_catalog.png) |
+| <img src="docs/screenshots/18_dealer_dashboard.png" width="200" /> | <img src="docs/screenshots/20_dealer_account.png" width="200" /> | <img src="docs/screenshots/21_dealer_orders.png" width="200" /> | <img src="docs/screenshots/22_dealer_catalog.png" width="200" /> |
 
 ### 🔔 Notifications
 
 | Notifications Inbox |
 |---|
-| ![Notifications](docs/screenshots/19_notifications.png) |
+| <img src="docs/screenshots/19_notifications.png" width="200" /> |
 ## 🔐 Security Practices
 
 - JWT-based stateless authentication
