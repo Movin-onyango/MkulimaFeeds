@@ -190,6 +190,11 @@ cd android-app
 - LinkedIn: www.linkedin.com/in/movin-odhiambo-749684273
 - Email: movinoscar45@gmail.com
 
+## 📚 Documentation
+
+- [REST API Reference](docs/api.md)
+- [Architecture Deep Dive](docs/architecture.md) 
+
 ## 📄 License
 
 MIT — see [LICENSE](./LICENSE).
