@@ -1,5 +1,5 @@
 package com.mkulimafeeds.data.remote
-
+import com.mkulimafeeds.BuildConfig
 object ApiConfig {
 
     // Physical Android device using adb reverse
