@@ -85,11 +85,124 @@ MkulimaFeeds/
 
 ## 🚀 Getting Started
 
+There are two ways to run the backend: **Docker** (recommended, zero-config) or **locally** (requires PostgreSQL + JDK 17). Choose whichever fits your setup.
+
 ### Prerequisites
-- JDK 17+
-- Android Studio (Hedgehog or newer)
-- PostgreSQL 14+
-- Gradle 8+
+
+| Tool | Docker Route | Local Route |
+|---|---|---|
+| **Docker Desktop** | ✅ Required | ❌ Not needed |
+| **JDK 17+** | ❌ Not needed | ✅ Required |
+| **PostgreSQL 14+** | ❌ Not needed (containerized) | ✅ Required |
+| **Android Studio** | ✅ For running the mobile app | ✅ For running the mobile app |
+
+---
+
+### Option 1 — Run with Docker (Recommended)
+
+If you have Docker Desktop installed:
+
+```bash
+git clone https://github.com/Movin-onyango/MkulimaFeeds.git
+cd MkulimaFeeds
+
+# 1. Copy the environment template
+cp .env.example .env
+
+# 2. Edit .env — set DB_PASSWORD and JWT_SECRET at minimum
+#    Tip: generate a JWT_SECRET with: openssl rand -base64 48
+
+# 3. Build and start
+docker compose up --build
+
+# 4. Verify
+curl http://localhost:8080/api/health
+```
+
+The backend is now live at `http://localhost:8080`, and PostgreSQL is running on `localhost:5432`.
+
+To stop:
+```bash
+docker compose down
+```
+
+To stop and wipe the database:
+```bash
+docker compose down -v
+```
+
+---
+
+### Option 2 — Run Locally (Without Docker)
+
+If you don't have Docker installed, or prefer to run things directly:
+
+**Step 1: Set up PostgreSQL**
+
+Install PostgreSQL 14+ locally, then create the database and user:
+
+```sql
+CREATE DATABASE mkulimafeeds_db;
+CREATE USER mkulimafeeds_app WITH ENCRYPTED PASSWORD 'your-password';
+GRANT ALL PRIVILEGES ON DATABASE mkulimafeeds_db TO mkulimafeeds_app;
+```
+
+**Step 2: Configure environment variables**
+
+Export these in your shell (or create a `.env` file in `backend/`):
+
+```bash
+export DB_HOST=localhost
+export DB_PORT=5432
+export DB_NAME=mkulimafeeds_db
+export DB_USER=mkulimafeeds_app
+export DB_PASSWORD=your-password
+export JWT_SECRET=$(openssl rand -base64 48)
+```
+
+**Step 3: Run the backend**
+
+```bash
+cd backend
+./gradlew run
+```
+
+The API will start on `http://localhost:8080`. On first run, Exposed automatically creates all 10 tables.
+
+**Step 4: (Optional) Send real OTPs**
+
+By default, OTPs are logged to the console instead of being sent. To enable real delivery:
+
+```bash
+export RESEND_API_KEY=re_...          # https://resend.com (free tier)
+export AT_API_KEY=atsk_...            # https://africastalking.com (sandbox)
+export AT_USERNAME=sandbox
+```
+
+Without these, verification codes still work — they just appear in the backend console output instead of arriving via email/SMS.
+
+---
+
+### Running the Android App
+
+```bash
+cd android-app
+```
+
+- Open the folder in **Android Studio**
+- The backend URL is configured in `app/build.gradle.kts` via `buildConfigField("String", "BASE_URL", ...)`
+- For the **emulator**: the current default `http://10.0.2.2:8080/` reaches your host's `localhost`
+- For a **physical device**: run `adb reverse tcp:8080 tcp:8080` and use `http://127.0.0.1:8080/`
+- Build & Run
+
+---
+
+### Need Help?
+
+- **Backend won't start?** Check that PostgreSQL is running and the credentials in `.env` match.
+- **Android build fails?** Ensure you've synced Gradle after cloning (`./gradlew --refresh-dependencies` in `android-app/`).
+- **OTPs not arriving?** They may be in the console. Check the backend logs.
+- **Port already in use?** Change `BACKEND_PORT` in `.env` or `port` in `application.conf`.
 
 ### 1. Backend Setup
 
