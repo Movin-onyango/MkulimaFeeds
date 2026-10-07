@@ -5,7 +5,6 @@ services:
   # ============================================================
   postgres:
     image: postgres:16-alpine
-    container_name: mkulimafeeds-postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${DB_NAME:-mkulimafeeds_db}
@@ -30,7 +29,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: mkulimafeeds-backend
     restart: unless-stopped
     depends_on:
       postgres:
