@@ -1,7 +1,10 @@
 # ============================================================
 # STAGE 1 — Build
 # ============================================================
-FROM gradle:8.7-jdk17 AS build
+# Match the base image to the version in gradle-wrapper.properties.
+# Using gradle:8.7 was wasteful because the wrapper downloads a fresh
+# Gradle distribution anyway.
+FROM gradle:9.5-jdk17 AS build
 
 WORKDIR /app
 
@@ -13,13 +16,17 @@ COPY settings.gradle.kts ./
 COPY build.gradle.kts ./
 COPY gradle.properties* ./
 
-# Convert gradlew to Unix line endings (in case it was saved on Windows)
+# Fix CRLF (Windows line endings) and make gradlew executable
 RUN sed -i 's/\r$//' gradlew && chmod +x gradlew
 
-# Pre-fetch dependencies (cached unless build files change)
+# The Gradle base image already has the distribution installed.
+# Dependencies still need to be downloaded once and cached.
+# Note: we do NOT use a Docker cache mount here because of known
+#       concurrency issues with Gradle's internal caches under
+#       BuildKit cache mounts. Docker's own layer cache is sufficient.
 RUN ./gradlew dependencies --no-daemon || true
 
-# Copy source and build a fat JAR
+# Copy source and build the fat JAR
 COPY src/ ./src/
 RUN ./gradlew buildFatJar --no-daemon -x test
 
@@ -27,6 +34,7 @@ RUN ./gradlew buildFatJar --no-daemon -x test
 # STAGE 2 — Runtime
 # ============================================================
 FROM eclipse-temurin:21-jre-jammy AS runtime
+
 WORKDIR /app
 
 # Non-root user for security
