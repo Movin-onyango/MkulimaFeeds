@@ -13,8 +13,8 @@ COPY settings.gradle.kts ./
 COPY build.gradle.kts ./
 COPY gradle.properties* ./
 
-# Make gradlew executable
-RUN chmod +x gradlew
+# Convert gradlew to Unix line endings (in case it was saved on Windows)
+RUN sed -i 's/\r$//' gradlew && chmod +x gradlew
 
 # Pre-fetch dependencies (cached unless build files change)
 RUN ./gradlew dependencies --no-daemon || true
@@ -26,8 +26,7 @@ RUN ./gradlew buildFatJar --no-daemon -x test
 # ============================================================
 # STAGE 2 — Runtime
 # ============================================================
-FROM eclipse-temurin:17-jre-jammy AS runtime
-
+FROM eclipse-temurin:21-jre-jammy AS runtime
 WORKDIR /app
 
 # Non-root user for security
