@@ -1,57 +1,42 @@
 # ============================================================
-# STAGE 1 — Build
+# MkulimaFeeds Backend — Runtime-only image
 # ============================================================
-# Match the base image to the version in gradle-wrapper.properties.
-# Using gradle:8.7 was wasteful because the wrapper downloads a fresh
-# Gradle distribution anyway.
-FROM gradle:9.5-jdk17 AS build
+# This Dockerfile downloads a pre-built JAR from GitHub Releases
+# instead of compiling from source. Benefits:
+#   - Build completes in ~30 seconds instead of ~45 minutes
+#   - No Gradle, no Kotlin, no JDK, no network for dependencies
+#   - Reproducible: the JAR is a versioned, immutable artifact
+#
+# To update the backend, publish a new release with a bumped
+# version tag, then change ARG JAR_VERSION below.
+# ============================================================
+FROM eclipse-temurin:21-jre-jammy
 
 WORKDIR /app
 
-# Copy Gradle wrapper and build scripts first (layer caching)
-COPY gradle/ ./gradle/
-COPY gradlew ./
-COPY gradlew.bat ./
-COPY settings.gradle.kts ./
-COPY build.gradle.kts ./
-COPY gradle.properties* ./
-
-# Fix CRLF (Windows line endings) and make gradlew executable
-RUN sed -i 's/\r$//' gradlew && chmod +x gradlew
-
-# The Gradle base image already has the distribution installed.
-# Dependencies still need to be downloaded once and cached.
-# Note: we do NOT use a Docker cache mount here because of known
-#       concurrency issues with Gradle's internal caches under
-#       BuildKit cache mounts. Docker's own layer cache is sufficient.
-RUN ./gradlew dependencies --no-daemon || true
-
-# Copy source and build the fat JAR
-COPY src/ ./src/
-RUN ./gradlew buildFatJar --no-daemon -x test
-
-# ============================================================
-# STAGE 2 — Runtime
-# ============================================================
-FROM eclipse-temurin:21-jre-jammy AS runtime
-
-WORKDIR /app
+# Version of the JAR to download (matches GitHub release tag without the 'v')
+ARG JAR_VERSION=1.0.0
 
 # Non-root user for security
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 
-# Copy the fat JAR from the build stage
-COPY --from=build /app/build/libs/*-all.jar ./app.jar
+# Install curl (needed for download + health check), fetch the JAR
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl -fsSL \
+       "https://github.com/Movin-onyango/MkulimaFeeds/releases/download/v${JAR_VERSION}/mkulimafeeds-backend-${JAR_VERSION}-all.jar" \
+       -o /app/app.jar \
+    && chown appuser:appuser /app/app.jar
 
-# Uploads directory (used for product images)
+# Uploads directory for product images (mounted as a volume in docker-compose)
 RUN mkdir -p /app/uploads/products && chown -R appuser:appuser /app
 
 USER appuser
 
 EXPOSE 8080
 
-# Health check — hits the /api/health endpoint
-HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
   CMD curl -f http://localhost:8080/api/health || exit 1
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
