@@ -37,6 +37,7 @@ dependencies {
     implementation(ktorLibs.client.okhttp)
     implementation(ktorLibs.client.contentNegotiation)
     implementation(ktorLibs.serialization.kotlinx.json)
+    implementation(ktorLibs.server.callLogging)
 }
 tasks.test {
     environment(

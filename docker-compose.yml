@@ -1,8 +1,5 @@
 services:
 
-  # ============================================================
-  # PostgreSQL
-  # ============================================================
   postgres:
     image: postgres:16-alpine
     restart: unless-stopped
@@ -22,9 +19,6 @@ services:
     networks:
       - mkulimafeeds-net
 
-  # ============================================================
-  # Ktor Backend
-  # ============================================================
   backend:
     build:
       context: ./backend
@@ -40,8 +34,6 @@ services:
       DB_USER: ${DB_USER:-mkulimafeeds_app}
       DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set}
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set}
-
-      # Optional integrations (fallback to console logging if absent)
       RESEND_API_KEY: ${RESEND_API_KEY:-}
       EMAIL_FROM: ${EMAIL_FROM:-MkulimaFeeds <onboarding@resend.dev>}
       AT_API_KEY: ${AT_API_KEY:-}
@@ -56,9 +48,7 @@ services:
 
 volumes:
   postgres_data:
-    driver: local
   backend_uploads:
-    driver: local
 
 networks:
   mkulimafeeds-net:

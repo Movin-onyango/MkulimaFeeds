@@ -1,15 +1,20 @@
 package com.movofeeds
-import com.movofeeds.routes.analyticsRoutes
-import com.movofeeds.service.AnalyticsService
+
 import com.movofeeds.config.DatabaseConfig
 import com.movofeeds.config.configureAuthentication
 import com.movofeeds.database.DatabaseInitializer
-import io.ktor.server.application.*
+import io.ktor.server.application.Application
+import io.ktor.server.application.install
+import io.ktor.server.plugins.calllogging.CallLogging
+import org.slf4j.event.Level
 
 fun Application.module(
     initializeDatabase: Boolean = true,
     initializeAuthentication: Boolean = true
 ) {
+    install(CallLogging) {
+        level = Level.INFO
+    }
 
     if (initializeDatabase) {
         DatabaseConfig.connect()

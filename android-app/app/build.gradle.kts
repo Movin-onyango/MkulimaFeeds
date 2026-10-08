@@ -15,13 +15,30 @@ android {
         versionCode = 1
         versionName = "1.0"
         buildConfigField(
+    "String",
+    "BASE_URL",
+    "\"http://127.0.0.1:8080/\""
+)
+    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+buildTypes {
+    debug {
+        // Debug builds target the emulator by default
+        buildConfigField(
             "String",
             "BASE_URL",
             "\"http://10.0.2.2:8080/\""
         )
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    release {
+        // Release builds target production
+        // Replace with your deployed URL when ready
+        buildConfigField(
+            "String",
+            "BASE_URL",
+            "\"https://api.mkulimafeeds.co.ke/\""
+        )
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -66,7 +83,7 @@ dependencies {
 
     // Kotlinx Serialization JSON
     implementation(libs.kotlinx.serialization.json)
-
+    implementation("org.slf4j:slf4j-simple:2.0.9")
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

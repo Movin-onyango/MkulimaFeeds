@@ -232,11 +232,22 @@ API is live at `http://localhost:8080`.
 
 bash
 cd android-app
+### Running the Android App
 
+The app connects to the backend at `http://10.0.2.2:8080/` by default — this is the special IP that Android's emulator uses to reach your host machine's `localhost`.
 
-- Open in Android Studio
-- Verify `ApiConfig.BASE_URL` (emulator: `http://10.0.2.2:8080/`, physical device: `adb reverse tcp:8080 tcp:8080`)
-- Build & run
+**Requirements:**
+1. Backend running via `docker compose up` on the same machine
+2. App running in an **Android emulator** (not a physical device)
+
+**If using a physical device:**
+1. Connect via USB
+2. Run `adb reverse tcp:8080 tcp:8080`
+3. The app will now reach your host's backend
+
+**If using a deployed backend:**
+Change `BASE_URL` in `app/build.gradle.kts` to your server's public URL.
+
 ## 📸 Screenshots
 
 ### 🛒 Customer Experience
