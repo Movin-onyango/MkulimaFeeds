@@ -38,3 +38,8 @@ secrets.properties
  OS
 Thumbs.db
 *.swp
+
+# Pre-built JARs (published as GitHub Release assets, not committed)
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+backend/mkulimafeeds-backend-*-all.jar
