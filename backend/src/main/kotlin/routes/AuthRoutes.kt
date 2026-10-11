@@ -158,36 +158,70 @@ fun Route.authRoutes(
     // UNIFIED LOGIN (email OR phone)
     // =========================================================
     post("/api/auth/login") {
-        try {
-            // Accept both old (email) and new (identifier) payloads.
-            // Try the new one first; if that fails, fall back to legacy.
-            val rawBody = call.receive<UnifiedLoginRequest>()
+        val request = try {
+            call.receive<UnifiedLoginRequest>()
+        } catch (e: Exception) {
+            return@post call.respond(
+                HttpStatusCode.BadRequest,
+                mapOf(
+                    "status" to "ERROR",
+                    "message" to "Malformed request body"
+                )
+            )
+        }
 
+        if (request.identifier.isBlank()) {
+            return@post call.respond(
+                HttpStatusCode.BadRequest,
+                mapOf(
+                    "status" to "ERROR",
+                    "message" to "Email or phone is required"
+                )
+            )
+        }
+
+        if (request.password.isBlank()) {
+            return@post call.respond(
+                HttpStatusCode.BadRequest,
+                mapOf(
+                    "status" to "ERROR",
+                    "message" to "Password is required"
+                )
+            )
+        }
+
+        try {
             val user = authService.loginWithIdentifier(
-                identifier = rawBody.identifier,
-                password = rawBody.password
+                identifier = request.identifier,
+                password = request.password
             )
 
             val token = JwtService.generateToken(user)
 
             call.respond(
                 HttpStatusCode.OK,
-                AuthResponse(
-                    token = token,
-                    user = user.toUserResponse()
+                AuthResponse(token = token, user = user.toUserResponse())
+            )
+        } catch (e: IllegalArgumentException) {
+            // AuthService throws IllegalArgumentException for bad credentials,
+            // suspended accounts, wrong password, etc.
+            call.respond(
+                HttpStatusCode.Unauthorized,
+                mapOf(
+                    "status" to "ERROR",
+                    "message" to (e.message ?: "Invalid credentials")
                 )
             )
         } catch (e: Exception) {
             call.respond(
-                HttpStatusCode.BadRequest,
+                HttpStatusCode.InternalServerError,
                 mapOf(
                     "status" to "ERROR",
-                    "message" to (e.message ?: "Invalid login credentials")
+                    "message" to (e.message ?: "Login failed")
                 )
             )
         }
     }
-
     // =========================================================
     // FORGOT PASSWORD — STEP 1: INITIATE
     // =========================================================

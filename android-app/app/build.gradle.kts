@@ -14,44 +14,38 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-        buildConfigField(
-    "String",
-    "BASE_URL",
-    "\"http://127.0.0.1:8080/\""
-)
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-buildTypes {
-    debug {
-        // Debug builds target the emulator by default
-        buildConfigField(
-            "String",
-            "BASE_URL",
-            "\"http://10.0.2.2:8080/\""
-        )
-    }
-    release {
-        // Release builds target production
-        // Replace with your deployed URL when ready
-        buildConfigField(
-            "String",
-            "BASE_URL",
-            "\"https://api.mkulimafeeds.co.ke/\""
-        )
     buildTypes {
+        debug {
+            // Physical device via `adb reverse tcp:8080 tcp:8080`
+            // The phone reaches your PC's localhost through the USB tunnel.
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"http://127.0.0.1:8080/\""
+            )
+        }
         release {
             isMinifyEnabled = false
-
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // Replace with your deployed URL when ready
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"https://api.mkulimafeeds.co.ke/\""
+            )
         }
     }
+
     buildFeatures {
         buildConfig = true
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -71,8 +65,9 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.flexbox)
     implementation("com.github.bumptech.glide:glide:4.16.0")
-   // implementation("io.coil-kt.coil3:coil:3.6.3")
-    //implementation("io.coil-kt.coil3:coil-network-okhttp:3.6.3")
+    // implementation("io.coil-kt.coil3:coil:3.6.3")
+    // implementation("io.coil-kt.coil3:coil-network-okhttp:3.6.3")
+
     // Ktor Client
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.okhttp)
@@ -84,6 +79,7 @@ dependencies {
     // Kotlinx Serialization JSON
     implementation(libs.kotlinx.serialization.json)
     implementation("org.slf4j:slf4j-simple:2.0.9")
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
