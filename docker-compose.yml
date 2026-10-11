@@ -1,16 +1,17 @@
 services:
 
   postgres:
-    image: postgres:16-alpine
+    image: postgres:18-alpine
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${DB_NAME:-mkulimafeeds_db}
       POSTGRES_USER: ${DB_USER:-mkulimafeeds_app}
       POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "${DB_PORT:-5432}:5432"
+      # FIXED name — never changes regardless of folder name
+      - mkulimafeeds_pgdata:/var/lib/postgresql
+      # Auto-seed on first init (only runs if the volume is empty)
+      - ./backend/seed/seed.sql:/docker-entrypoint-initdb.d/01-seed.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-mkulimafeeds_app} -d ${DB_NAME:-mkulimafeeds_db}"]
       interval: 10s
@@ -34,21 +35,19 @@ services:
       DB_USER: ${DB_USER:-mkulimafeeds_app}
       DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD must be set}
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET must be set}
-      RESEND_API_KEY: ${RESEND_API_KEY:-}
       EMAIL_FROM: ${EMAIL_FROM:-MkulimaFeeds <onboarding@resend.dev>}
-      AT_API_KEY: ${AT_API_KEY:-}
       AT_USERNAME: ${AT_USERNAME:-sandbox}
-      AT_SENDER_ID: ${AT_SENDER_ID:-}
     volumes:
-      - backend_uploads:/app/uploads
+      # Bind-mount the repo's uploads folder — images are committed to git
+      - ./backend/uploads:/app/uploads
     ports:
       - "${BACKEND_PORT:-8080}:8080"
     networks:
       - mkulimafeeds-net
 
 volumes:
-  postgres_data:
-  backend_uploads:
+  mkulimafeeds_pgdata:
+    name: mkulimafeeds_pgdata     # ← explicit — never auto-prefixed
 
 networks:
   mkulimafeeds-net:
