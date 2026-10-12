@@ -24,7 +24,6 @@ keystore.properties
  Backend / Ktor
 backend/build/
 backend/.gradle/
-backend/uploads/
 .log
 logs/
 
