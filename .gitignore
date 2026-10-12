@@ -42,3 +42,6 @@ Thumbs.db
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
 backend/mkulimafeeds-backend-*-all.jar
+# JVM crash dumps
+hs_err_pid*.log
+replay_pid*.log
