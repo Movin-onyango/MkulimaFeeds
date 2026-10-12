@@ -1,42 +1,49 @@
-  MkulimaFeeds
+# MkulimaFeeds
 
-A full-stack agricultural commerce platform connecting Kenyan farmers, dealers, and animal-feed suppliers.
+> **A full-stack agricultural commerce platform** digitizing Kenya's animal-feed supply chain — from farm to dealer to customer. Built end-to-end with Kotlin on both client and server.
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0-blue?logo=kotlin)](https://kotlinlang.org/)
 [![Android](https://img.shields.io/badge/Android-API%2024+-green?logo=android)](https://developer.android.com/)
-[![Ktor](https://img.shields.io/badge/Ktor-2.x-purple)](https://ktor.io/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-blue?logo=postgresql)](https://www.postgresql.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Ktor](https://img.shields.io/badge/Ktor-3.x-purple)](https://ktor.io/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18+-blue?logo=postgresql)](https://www.postgresql.org/)
+[![License: Source-Available](https://img.shields.io/badge/License-Source--Available-red.svg)](./LICENSE)
 [![CI](https://github.com/Movin-onyango/MkulimaFeeds/actions/workflows/ci.yml/badge.svg)](https://github.com/Movin-onyango/MkulimaFeeds/actions/workflows/ci.yml)
 
+---
 
-📖 Overview
+## 📖 Overview
 
 MkulimaFeeds is a production-grade mobile platform that digitizes the animal-feed supply chain in Kenya. It serves **four distinct user roles** — Customer, Dealer, Staff, and Admin — each with a tailored experience covering the full business lifecycle: authentication, catalog browsing, cart & checkout, order fulfilment, dealer management, and administrative analytics.
 
- ## Why This Project Matters
+### Why This Project Matters
 
 - **Real-world domain** — built around an actual Kenyan agri-business problem.
 - **Role-based architecture** — four user roles with granular RBAC on both client and server.
 - **Full-stack ownership** — native Android app + Ktor backend + PostgreSQL, designed and built end-to-end.
 - **Production concerns** — JWT auth, bcrypt hashing, OTP rate limiting, soft deletes, audit logging.
+- **Reproducible setup** — one `docker compose up` command gives a fully seeded, working environment.
 
-## Architecture
+---
+
+## 🏗️ Architecture
+
+```mermaid
+flowchart LR
+    A["📱 Android App<br/>Kotlin · Material 3<br/>ViewModel · StateFlow"] -->|"HTTPS + JWT"| B["⚙️ Ktor Backend<br/>Exposed ORM · RBAC<br/>JWT Auth · Bcrypt"]
+    B -->|JDBC| C[("🐘 PostgreSQL 18<br/>10 tables · Seed-driven")]
+    B -.->|Optional| D["✉️ Resend<br/>Email OTP"]
+    B -.->|Optional| E["📲 Africa's Talking<br/>SMS OTP"]
+
+    style A fill:#E8F5E9,stroke:#2E7D32,color:#000
+    style B fill:#E3F2FD,stroke:#1565C0,color:#000
+    style C fill:#FFF3E0,stroke:#E65100,color:#000
 ```
-┌─────────────────────────┐         ┌──────────────────────────┐
-│   Android App (Kotlin)  │  HTTPS  │   Ktor Backend (Kotlin)  
-│   ViewModels + Flow    │ ──────►   - Routes → Services     
-│   Ktor Client          │   JWT   │   - Exposed ORM           
-│   Material 3           │ ◄──────   - RBAC Guard            
-│   Role-based UI        │   JSON  │  • JWT Auth              
-└─────────────────────────┘         └────────────┬─────────────┘
-                                                 │
-                                                 ▼
-                                    ┌────────────────────────┐
-                                    │      PostgreSQL        
-                                    └────────────────────────┘
-```
-##  Key Features
+
+The backend is fully stateless — every request carries a JWT and reads/writes directly to PostgreSQL via Exposed. The database is auto-seeded on first boot through Docker's `docker-entrypoint-initdb.d` mechanism, making the entire stack reproducible from a fresh clone.
+
+---
+
+## ✨ Key Features
 
 ### 👤 Customer
 - Two-step registration with email/SMS OTP verification
@@ -45,7 +52,7 @@ MkulimaFeeds is a production-grade mobile platform that digitizes the animal-fee
 - Visual order tracking timeline
 - Profile management, password change, account deletion
 
-###  Dealer
+### 🚚 Dealer
 - Dashboard with KPIs and upcoming deliveries
 - View & update assigned orders
 - Manage assigned customers
@@ -60,40 +67,65 @@ MkulimaFeeds is a production-grade mobile platform that digitizes the animal-fee
 - Role-change audit log
 
 ### ⚙️ Backend Highlights
-- **RBAC engine** — central permission map with 25+ permissions
-- **OTP system** — bcrypt-hashed codes, TTL, attempt limits, rate limiting
-- **Order state machine** — validated status transitions
-- **Inventory integrity** — automatic stock adjustment on confirm/cancel
-- **Settings service** — runtime-editable business rules
+- **RBAC engine** — central permission map with 25+ permissions across 4 roles
+- **OTP system** — bcrypt-hashed codes, TTL, attempt limits, per-destination rate limiting
+- **Order state machine** — validated status transitions (`PENDING → CONFIRMED → PROCESSING → READY → COMPLETED`)
+- **Inventory integrity** — automatic stock adjustment on order confirm/cancel
+- **Settings service** — runtime-editable business rules without redeploys
+
+---
 
 ## 🛠️ Tech Stack
 
- Layer | Technology |
- **Frontend** | Kotlin, Android SDK, Material 3, ViewModel, StateFlow, Ktor Client |
- **Backend** | Kotlin, Ktor, Exposed ORM, JWT (Auth0), Bcrypt |
- **Database** | PostgreSQL |
- **Integrations** | Resend (email), Africa's Talking (SMS) |
- **Tooling** | Gradle (Kotlin DSL), Logback, kotlinx.serialization |
+| Layer | Technology |
+|---|---|
+| **Frontend** | Kotlin, Android SDK, Material 3, ViewModel, StateFlow, Ktor Client |
+| **Backend** | Kotlin, Ktor 3.x, Exposed ORM, JWT (Auth0), Bcrypt |
+| **Database** | PostgreSQL 18 |
+| **Integrations** | Resend (email), Africa's Talking (SMS) |
+| **Tooling** | Gradle (Kotlin DSL), Logback, kotlinx.serialization |
+| **Orchestration** | Docker Compose (Postgres + Ktor backend) |
+
+---
 
 ## 📂 Project Structure
 
+```
 MkulimaFeeds/
-├── android-app/     Android client (Kotlin, XML, Material 3)
-├── backend/         Ktor server (Kotlin, Exposed, PostgreSQL)
-├── docs/            Architecture, API reference, screenshots
+├── android-app/            Android client (Kotlin, XML, Material 3)
+│   └── app/src/main/
+│       ├── java/com/mkulimafeeds/    Activity + ViewModel + Repository
+│       └── res/                      Layouts, drawables, themes
+├── backend/                Ktor server (Kotlin, Exposed, PostgreSQL)
+│   ├── seed/
+│   │   └── seed.sql        Auto-loaded on first DB init
+│   ├── uploads/products/   Product images (served from /api/products/{id}/image)
+│   └── src/main/kotlin/
+│       ├── config/         Database, JWT, dependency wiring
+│       ├── database/       Tables + initializer
+│       ├── models/         Serialization DTOs
+│       ├── repository/     Data access layer
+│       ├── routes/         HTTP endpoints
+│       ├── security/       RBAC, validators, JWT, OTP
+│       └── service/        Business logic
+├── docs/                   Architecture and API documentation
+├── docker-compose.yml      Postgres 18 + Ktor backend
 └── README.md
+```
+
+---
 
 ## 🚀 Getting Started
 
-There are two ways to run the backend: **Docker** (recommended, zero-config) or **locally** (requires PostgreSQL + JDK 17). Choose whichever fits your setup.
+Two ways to run the backend: **Docker** (recommended, zero-config) or **locally** (requires PostgreSQL + JDK 21).
 
 ### Prerequisites
 
 | Tool | Docker Route | Local Route |
 |---|---|---|
 | **Docker Desktop** | ✅ Required | ❌ Not needed |
-| **JDK 17+** | ❌ Not needed | ✅ Required |
-| **PostgreSQL 14+** | ❌ Not needed (containerized) | ✅ Required |
+| **JDK 21+** | ❌ Not needed | ✅ Required |
+| **PostgreSQL 18+** | ❌ Not needed (containerized) | ✅ Required |
 | **Android Studio** | ✅ For running the mobile app | ✅ For running the mobile app |
 
 ---
@@ -109,67 +141,93 @@ cd MkulimaFeeds
 # 1. Copy the environment template
 cp .env.example .env
 
-# 2. Edit .env — set DB_PASSWORD and JWT_SECRET at minimum
-#    Tip: generate a JWT_SECRET with: openssl rand -base64 48
+# 2. Edit .env — set DB_PASSWORD and JWT_SECRET at minimum.
+#    Tip: generate a JWT_SECRET with:
+#      openssl rand -base64 48
 
 # 3. Build and start
-docker compose up --build
+docker compose up -d
 
 # 4. Verify
 curl http://localhost:8080/api/health
+# → {"status":"OK","service":"MovoFeeds Backend","message":"Backend is running"}
 ```
 
-The backend is now live at `http://localhost:8080`, and PostgreSQL is running on `localhost:5432`.
+The backend is now live at `http://localhost:8080`, and PostgreSQL is running on the internal Docker network.
 
-To stop:
+On the first boot, PostgreSQL automatically loads `backend/seed/seed.sql`, populating the database with:
+
+- **1 admin**, **5 customers**, **3 dealers**
+- **45 products** across Poultry, Dairy, Pig, Feeds, Supplements, and more
+- **16 product images** served from `backend/uploads/products/`
+- Full settings catalogue (business rules, tier thresholds, branding)
+
+**Common commands:**
+
 ```bash
+# Stop everything (data persists in the volume)
 docker compose down
-```
 
-To stop and wipe the database:
-```bash
+# Stop AND wipe the database (re-seeds on next boot)
 docker compose down -v
+
+# View backend logs
+docker compose logs -f backend
+
+# View Postgres logs
+docker compose logs -f postgres
+
+# Open a psql shell
+docker compose exec postgres psql -U mkulimafeeds_app -d mkulimafeeds_db
 ```
 
 ---
 
 ### Option 2 — Run Locally (Without Docker)
 
-If you don't have Docker installed, or prefer to run things directly:
+If you don't have Docker installed, or prefer to run directly:
 
-**Step 1: Set up PostgreSQL**
+**Step 1 — Set up PostgreSQL 18+**
 
-Install PostgreSQL 14+ locally, then create the database and user:
+Install PostgreSQL locally, then create the database and user:
 
 ```sql
 CREATE DATABASE mkulimafeeds_db;
-CREATE USER mkulimafeeds_app WITH ENCRYPTED PASSWORD 'your-password';
+CREATE USER mkulimafeeds_app WITH ENCRYPTED PASSWORD 'your-secure-password';
 GRANT ALL PRIVILEGES ON DATABASE mkulimafeeds_db TO mkulimafeeds_app;
 ```
 
-**Step 2: Configure environment variables**
+**Step 2 — Configure environment variables**
 
-Export these in your shell (or create a `.env` file in `backend/`):
+Export these in your shell (or create `.env` in `backend/`):
 
 ```bash
 export DB_HOST=localhost
 export DB_PORT=5432
 export DB_NAME=mkulimafeeds_db
 export DB_USER=mkulimafeeds_app
-export DB_PASSWORD=your-password
-export JWT_SECRET=$(openssl rand -base64 48)
+export DB_PASSWORD=<your-secure-password>
+export JWT_SECRET=<generate-with-openssl-rand-base64-48>
 ```
 
-**Step 3: Run the backend**
+**Step 3 — Run the backend**
 
 ```bash
 cd backend
 ./gradlew run
 ```
 
-The API will start on `http://localhost:8080`. On first run, Exposed automatically creates all 10 tables.
+The API starts on `http://localhost:8080`. On first run, Exposed automatically creates all 10 tables.
 
-**Step 4: (Optional) Send real OTPs**
+**Step 4 — (Optional) Load seed data**
+
+If you want the same seeded environment as Docker, load the seed manually:
+
+```bash
+psql -U mkulimafeeds_app -d mkulimafeeds_db -f backend/seed/seed.sql
+```
+
+**Step 5 — (Optional) Send real OTPs**
 
 By default, OTPs are logged to the console instead of being sent. To enable real delivery:
 
@@ -179,74 +237,75 @@ export AT_API_KEY=atsk_...            # https://africastalking.com (sandbox)
 export AT_USERNAME=sandbox
 ```
 
-Without these, verification codes still work — they just appear in the backend console output instead of arriving via email/SMS.
+Without these, verification codes still work — they appear in the backend console output instead of arriving via email/SMS.
 
 ---
 
 ### Running the Android App
+
+The app connects to the backend at `http://10.0.2.2:8080/` by default — that's the special IP the Android emulator uses to reach the host machine's `localhost`.
+
+**Setup:**
+
+1. Ensure the backend is running (`docker compose up -d` or `./gradlew run`)
+2. Open `android-app/` in Android Studio
+3. Sync Gradle (`./gradlew --refresh-dependencies` if needed)
+4. Build & Run on an emulator
+
+**For a physical device** (via USB):
 
 ```bash
-cd android-app
+adb reverse tcp:8080 tcp:8080
 ```
 
-- Open the folder in **Android Studio**
-- The backend URL is configured in `app/build.gradle.kts` via `buildConfigField("String", "BASE_URL", ...)`
-- For the **emulator**: the current default `http://10.0.2.2:8080/` reaches your host's `localhost`
-- For a **physical device**: run `adb reverse tcp:8080 tcp:8080` and use `http://127.0.0.1:8080/`
-- Build & Run
+Then change `BASE_URL` in `app/build.gradle.kts` to `http://127.0.0.1:8080/`.
+
+**For a deployed backend:** change `BASE_URL` to your server's public URL.
 
 ---
 
-### Need Help?
+## 🔑 Demo Credentials
 
-- **Backend won't start?** Check that PostgreSQL is running and the credentials in `.env` match.
-- **Android build fails?** Ensure you've synced Gradle after cloning (`./gradlew --refresh-dependencies` in `android-app/`).
-- **OTPs not arriving?** They may be in the console. Check the backend logs.
-- **Port already in use?** Change `BACKEND_PORT` in `.env` or `port` in `application.conf`.
+The auto-seeded database includes a test customer account for quick evaluation:
 
-### 1. Backend Setup
+| Role | Email | Password |
+|---|---|---|
+| Customer | `testcustomer@movofeeds.com` | `Password123` |
+| Dealer | `dealer@movofeeds.com` | *(password hash available in seed)* |
+| Admin | *(see `backend/seed/seed.sql`)* | *(password hash in seed)* |
 
-bash
-cd backend
+> **Note:** The `testcustomer` account is provided for demo purposes only. For the admin and dealer accounts, the password hashes are stored in `backend/seed/seed.sql`. To reset any account to a known password, use the backend's `PasswordHasher` utility to generate a fresh bcrypt hash and `UPDATE users SET password_hash = '<hash>' WHERE email = '...';`.
 
+---
 
-Create `.env` (never committed) or export:
+## 🧪 API Quick Test
 
-bash
-export DB_HOST=localhost
-export DB_PORT=5432
-export DB_NAME=mkulimafeeds_db
-export DB_USER=mkulimafeeds_app
-export DB_PASSWORD=<Movo1648>
-export JWT_SECRET=<>
+Verify the running backend with curl:
 
+```bash
+# Health check
+curl http://localhost:8080/api/health
+# → {"status":"OK","service":"MovoFeeds Backend","message":"Backend is running"}
 
-Run:
-bash
-./gradlew run
+# Login as the demo customer
+curl -X POST http://localhost:8080/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"identifier":"testcustomer@movofeeds.com","password":"Password123"}'
+# → {"token":"eyJ...","user":{"id":2,"role":"CUSTOMER",...}}
 
+# Register a new account (initiates OTP — check backend logs for the code)
+curl -X POST http://localhost:8080/api/auth/register/initiate \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Demo User","email":"demo@yourdomain.com","password":"password123"}'
+# → {"status":"OK","channel":"EMAIL","destination":"demo@yourdomain.com"}
 
-API is live at `http://localhost:8080`.
+# Browse the public catalog (no auth required)
+curl http://localhost:8080/api/products | head -c 500
+```
 
-### 2. Android App
+Full endpoint reference: [`docs/api.md`](docs/api.md).
 
-bash
-cd android-app
-### Running the Android App
-
-The app connects to the backend at `http://10.0.2.2:8080/` by default — this is the special IP that Android's emulator uses to reach your host machine's `localhost`.
-
-**Requirements:**
-1. Backend running via `docker compose up` on the same machine
-2. App running in an **Android emulator** (not a physical device)
-
-**If using a physical device:**
-1. Connect via USB
-2. Run `adb reverse tcp:8080 tcp:8080`
-3. The app will now reach your host's backend
-
-**If using a deployed backend:**
-Change `BASE_URL` in `app/build.gradle.kts` to your server's public URL.
+---
 
 ## 📸 Screenshots
 
@@ -256,13 +315,13 @@ Change `BASE_URL` in `app/build.gradle.kts` to your server's public URL.
 |---|---|---|---|
 | <img src="docs/screenshots/01_home.png" width="200" /> | <img src="docs/screenshots/02_catalog.png" width="200" /> | <img src="docs/screenshots/03_cart.png" width="200" /> | <img src="docs/screenshots/04_checkout.png" width="200" /> |
 
-| My Orders | Customer Account | Saved Locations | Theme |
+| My Orders | Customer Account | Saved Locations | Theme Selection |
 |---|---|---|---|
 | <img src="docs/screenshots/05_my_orders.png" width="200" /> | <img src="docs/screenshots/06_customer_account.png" width="200" /> | <img src="docs/screenshots/07_saved_locations.png" width="200" /> | <img src="docs/screenshots/08_theme.png" width="200" /> |
 
-| Settings & Support | Saved Locations (Dark) |
-|---|---|
-| <img src="docs/screenshots/09_settings_support.png" width="200" /> | <img src="docs/screenshots/07_saved_locations_dark.png" width="200" /> |
+| Settings & Support | Saved Locations (Dark) | | |
+|---|---|---|---|
+| <img src="docs/screenshots/09_settings_support.png" width="200" /> | <img src="docs/screenshots/07_saved_locations_dark.png" width="200" /> | | |
 
 ### 🛡️ Admin Console
 
@@ -274,9 +333,9 @@ Change `BASE_URL` in `app/build.gradle.kts` to your server's public URL.
 |---|---|---|---|
 | <img src="docs/screenshots/12_business_intelligence_02.png" width="200" /> | <img src="docs/screenshots/13_analytics_dashboard_02.png" width="200" /> | <img src="docs/screenshots/14_dealer_audit.png" width="200" /> | <img src="docs/screenshots/15_customer_directory.png" width="200" /> |
 
-| Dealer Applications | Business Rules |
-|---|---|
-| <img src="docs/screenshots/16_dealer_applications.png" width="200" /> | <img src="docs/screenshots/17_business_rules.png" width="200" /> |
+| Dealer Applications | Business Rules | | |
+|---|---|---|---|
+| <img src="docs/screenshots/16_dealer_applications.png" width="200" /> | <img src="docs/screenshots/17_business_rules.png" width="200" /> | | |
 
 ### 🚚 Dealer Experience
 
@@ -289,36 +348,81 @@ Change `BASE_URL` in `app/build.gradle.kts` to your server's public URL.
 | Notifications Inbox |
 |---|
 | <img src="docs/screenshots/19_notifications.png" width="200" /> |
+
+---
+
 ## 🔐 Security Practices
 
-- JWT-based stateless authentication
-- Bcrypt password hashing (cost factor 12)
-- OTPs hashed before storage
-- Per-destination rate limiting on OTP requests
-- RBAC enforced server-side
-- Soft deletes preserve referential integrity
-- Secrets loaded from environment, never committed
+- **JWT-based stateless authentication** — no server-side sessions
+- **Bcrypt password hashing** (cost factor 12)
+- **OTPs hashed before storage** — never stored in plaintext
+- **Per-destination rate limiting** on OTP requests (3 requests/hour)
+- **Attempt-limited verification** (5 failed attempts invalidates the code)
+- **RBAC enforced server-side** — every protected route checks permissions via `RbacGuard`
+- **Soft deletes** preserve referential integrity for audit trails
+- **Configurable expiry** on verification codes (10-minute TTL)
+- **Secrets loaded from environment variables** — never committed
+- **Validated order state transitions** — prevents invalid workflow jumps
+- **Automatic inventory reconciliation** — stock adjusts on confirm/cancel
+- **Role-change audit log** — every promotion, demotion, or suspension recorded
+
+---
 
 ## 🗺️ Roadmap
 
-- [ ] Migrate in-memory pending auth storage to Redis
-- [ ] Refactor frontend bottom-nav logic into a shared base
-- [ ] Add CI/CD pipeline (GitHub Actions)
-- [ ] Dockerize backend + Postgres
-- [ ] Integration test suite
+### ✅ Completed
+
+- [x] Role-based access control (RBAC) — 4 roles, 25+ permissions
+- [x] JWT authentication with bcrypt password hashing
+- [x] Two-step registration with OTP verification (email + SMS)
+- [x] Product image uploads with MIME validation
+- [x] Order state machine with validated transitions
+- [x] Dockerized stack — PostgreSQL 18 + Ktor backend
+- [x] Auto-seeded database via `docker-entrypoint-initdb.d`
+- [x] GitHub Actions CI pipeline
+- [x] Full source-available license
+
+### 🚧 In Progress
+
+- [ ] Integration test suite for critical flows
+- [ ] Expanded API documentation with OpenAPI/Swagger
+
+### 🎯 Planned
+
+- [ ] Migrate in-memory pending auth storage to Redis (for horizontal scaling)
+- [ ] Push notifications via Firebase Cloud Messaging
+- [ ] Dealer bulk-order validation on the client
+- [ ] Multi-currency support for cross-border expansion
+- [ ] End-to-end test coverage with Espresso
+
+---
 
 ## 👤 Author
 
 **Movin Onyango**
+
 - GitHub: [@Movin-onyango](https://github.com/Movin-onyango)
-- LinkedIn: www.linkedin.com/in/movin-odhiambo-749684273
+- LinkedIn: [movin-odhiambo-749684273](https://www.linkedin.com/in/movin-odhiambo-749684273)
 - Email: movinoscar45@gmail.com
+
+---
 
 ## 📚 Documentation
 
-- [REST API Reference](docs/api.md)
-- [Architecture Deep Dive](docs/architecture.md) 
+- [REST API Reference](docs/api.md) — full endpoint listing with request/response schemas
+- [Architecture Deep Dive](docs/architecture.md) — design decisions, data flow, and rationale
+- [MkulimaFeeds Portfolio PDF](MkulimaFeeds-Folio.pdf) — complete code walkthrough
+
+---
 
 ## 📄 License
 
-MIT — see [LICENSE](./LICENSE).
+This project is **source-available** for portfolio and evaluation purposes only. See [LICENSE](./LICENSE) for full terms.
+
+© 2026 Movin Onyango. All Rights Reserved.
+
+**You may:** read, study, reference, and learn from the code.
+
+**You may not:** use it commercially, redistribute it as your own, or republish any substantial portion without written permission.
+
+For commercial licensing inquiries, contact: **movinoscar45@gmail.com**
